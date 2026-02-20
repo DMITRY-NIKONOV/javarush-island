@@ -2,9 +2,15 @@ package island.animal;
 
 import island.model.Island;
 import island.model.Location;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
+@Data
+@NoArgsConstructor
+@Slf4j
 public abstract class Animal {
 
     protected double weight;
@@ -16,10 +22,10 @@ public abstract class Animal {
 
     protected Map<Class<? extends Animal>, Integer> eatingProbabilities;
 
-    public Animal(double weight, double maxSatiety, double currentSatiety) {
+    public Animal(double weight, double maxSatiety) {
         this.weight = weight;
         this.maxSatiety = maxSatiety;
-        this.currentSatiety = currentSatiety;
+        this.currentSatiety = maxSatiety;
     }
 
     public abstract void eat(Location location);
@@ -28,7 +34,7 @@ public abstract class Animal {
 
     public abstract void reproduce(Location location);
 
-    public  void die() {
+    public void die() {
         this.alive = false;
     };
 
