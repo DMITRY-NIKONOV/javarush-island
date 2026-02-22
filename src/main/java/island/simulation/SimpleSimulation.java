@@ -95,7 +95,7 @@ public class SimpleSimulation {
                 }
             }
         }
-        printStatistics;
+        printStatistics();
     }
 
     public void printStatistics() {

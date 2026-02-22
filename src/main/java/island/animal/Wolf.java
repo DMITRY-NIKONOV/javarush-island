@@ -12,7 +12,7 @@ public class Wolf extends Animal {
 
     private final static double WEIGHT = 50;
     private final static double MAX_SATIETY = 30;
-    private final static Map<Class<? extends Animal>, Integer> EATING_PROBABILITIES = Map.of();  //todo добавить сущности животных
+    private final static Map<Class<? extends Animal>, Integer> EATING_PROBABILITIES = Map.of(Rabbit.class, 60, Deer.class, 80);  //todo заменить магические числа!
 
     public Wolf() {
         super(WEIGHT, MAX_SATIETY);
