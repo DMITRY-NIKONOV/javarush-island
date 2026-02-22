@@ -2,8 +2,14 @@ package island.animal;
 
 import island.model.Island;
 import island.model.Location;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Mouse extends Animal{
+
+    private final static double WEIGHT = 0.05;
+    private final static double MAX_SATIETY = 0.01;
+
     @Override
     public void eat(Location location) {
 

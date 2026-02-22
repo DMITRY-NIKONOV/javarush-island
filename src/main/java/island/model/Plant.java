@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Plant {
 
-    private double weight = 1.0;
+    private double weight = 1;
 }

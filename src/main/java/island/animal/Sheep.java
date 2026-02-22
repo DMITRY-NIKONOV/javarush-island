@@ -7,6 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Sheep extends Animal{
+
+    private final static double WEIGHT = 70;
+    private final static double MAX_SATIETY = 15;
+
     @Override
     public void eat(Location location) {
         if (!alive) {

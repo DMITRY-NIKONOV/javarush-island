@@ -7,6 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Caterpillar extends Animal {
+
+    private final static double WEIGHT = 0.01;
+    private final static double MAX_SATIETY = 0;
+
     @Override
     public void eat(Location location) {
         if (!alive) {

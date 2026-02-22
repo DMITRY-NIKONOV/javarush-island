@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Bear extends Animal{
 
-    private final static double WEIGHT = 80;
-    private final static double MAX_SATIETY = 50;
+    private final static double WEIGHT = 500;
+    private final static double MAX_SATIETY = 80;
 
     public Bear() {
         super(WEIGHT, MAX_SATIETY);

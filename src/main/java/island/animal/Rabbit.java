@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Rabbit extends Animal {
 
     private static final double WEIGHT = 2;
-    private static final double MAX_SATIETY = 1;
+    private static final double MAX_SATIETY = 0.45;
 
 
     public Rabbit() {
