@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,12 +15,14 @@ import java.util.concurrent.ThreadLocalRandom;
 @Slf4j
 public abstract class Animal {
 
+    private static final int CHANCE_OF_REPRODUCTION = 30;//шанс размножения
     protected double weight;
     protected int maxQuantity;
     protected int speed;
     protected double maxSatiety;
     protected double currentSatiety;
     protected boolean alive = true;
+    //volatile гарантирует, что все потоки увидят актуальное значение
     protected volatile Location currentLocation; //текущее местонахождение животного
 
     protected Map<Class<? extends Animal>, Integer> eatingProbabilities;
@@ -63,14 +66,37 @@ public abstract class Animal {
                 newX = Math.max(0, currentX - 1);
                 break;
         }
-    };
+    }
 
-    public abstract void reproduce(Location location);
+    /**
+     * Многопоточный метод reproduce()
+     * @param location
+     */
+    public void reproduce(Location location) {
+        if (!alive) {
+            return;
+        }
+        //Подсчет особей того же вида (фильтруем только живых и того же класса, кроме самого себя)
+        long sameSpeciesCount = location.getAnimals().stream()
+                .filter(a -> a.getClass() == this.getClass() && a != this && a.isAlive()) //промежуточная
+                .count(); //терминальная
+        //Условие для размножения животных: наличие хотя бы одной особи того же вида (sameSpeciesCount), шанс размножения
+        if (sameSpeciesCount > 0 && ThreadLocalRandom.current().nextInt(100) < CHANCE_OF_REPRODUCTION) {
+            try {
+                //Создание потомка через рефлексию (не требуется знание конкретного класса во время компиляции)
+                Animal baby = this.getClass().getDeclaredConstructor().newInstance();
+                baby.setCurrentSatiety(baby.getMaxSatiety() / 2);//установка начальной сытости, половина от максимальной для животного
+                location.addAnimal(baby);//родившееся животное добавляем в локацию
+                log.debug("Родилось животное {}", baby.getClass().getSimpleName());
+
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                log.error("Ошибка при создании нового животного!");
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public void die() {
         this.alive = false;
-    };
-
-
-
+    }
 }
