@@ -12,6 +12,10 @@ public class Deer extends Animal {
     private final static double MAX_SATIETY = 50;
 
 
+    public Deer() {
+        super(WEIGHT, MAX_SATIETY);
+    }
+
     @Override
     public void eat(Location location) {
         if (!alive) {

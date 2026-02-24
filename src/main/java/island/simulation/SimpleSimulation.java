@@ -21,6 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SimpleSimulation {
     private final Island island;
     private final SimulationConfig config;
+    private static final double SATIETY_PER_TICK = 0.01;
 
     public SimpleSimulation(SimulationConfig config) {
         this.config = config;
@@ -87,7 +88,7 @@ public class SimpleSimulation {
                     animal.move(island, x, y);
                     animal.reproduce(location);
                     //Уменьшить сытость
-                    animal.setCurrentSatiety(animal.getCurrentSatiety() - 1); //todo магическое число
+                    animal.setCurrentSatiety(animal.getCurrentSatiety() - SATIETY_PER_TICK);
                     if (animal.getCurrentSatiety() <= 0) {
                         animal.die();
                         location.removeAnimal(animal);
@@ -128,9 +129,10 @@ public class SimpleSimulation {
     public void run(int ticks) throws InterruptedException {
         for (int i = 0; i < ticks; i++) {
             log.info("Такт {}", i + 1);
+
+            tick();
+            Thread.sleep(1000); //todo магическое число
         }
-        tick();
-        Thread.sleep(1000); //todo магическое число
     }
 
     public static void main(String[] args) throws InterruptedException {
