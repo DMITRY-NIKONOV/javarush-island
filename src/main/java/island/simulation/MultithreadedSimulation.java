@@ -98,7 +98,7 @@ public class MultithreadedSimulation {
             }
         }
         try {
-            List<Future<Void>> futures = workPool.invokeAll(tasks);
+            List<Future<Void>> futures = workPool.invokeAll(tasks);//отправляем действия в пул рабочих потоков
             for (Future<Void> f : futures) {
                 f.get();
             }
@@ -127,7 +127,7 @@ public class MultithreadedSimulation {
                 plants += location.getPlants().size();
                 }
             }
-            log.info("Статистика: Волки={}, Кролики={}, Олени={}, Растения={}", wolves, rabbits, deer);
+            log.info("Статистика: Волки={}, Кролики={}, Олени={}, Растения={}", wolves, rabbits, deer, plants);
         }
 
     public void start() {
